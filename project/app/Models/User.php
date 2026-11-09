@@ -30,7 +30,7 @@ class User extends Authenticatable
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn(?string $value)=> $value ?? "/avatars/default.jpg"
+            get: fn(?string $value)=>$value ?? "/avatars/default.jpg"
         );
     }
 }

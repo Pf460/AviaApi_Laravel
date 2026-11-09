@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -23,6 +24,22 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@flight.ru',
             'password' => 'QWEasd123',
             'role' => 'admin',
+        ]);
+
+        Ticket::factory()->create([
+            'name' => 'SU-100 Москва - Сочи',
+            'description' => 'Рейс SU-100, Вылет 12:00, Эконом класс',
+            'price' => 8500
+        ]);
+        Ticket::factory()->create([
+            'name' => 'SU-200 Москва - Санкт-Петербург',
+            'description' => 'Рейс SU-200, Вылет 13:00, Эконом класс',
+            'price' => 10500
+        ]);
+        Ticket::factory()->create([
+            'name' => 'SU-300 Москва - Сочи',
+            'description' => 'Рейс SU-300, Вылет 10:00, Бизнес класс',
+            'price' => 15500.50
         ]);
     }
 }
