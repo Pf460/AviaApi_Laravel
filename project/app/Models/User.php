@@ -38,10 +38,8 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    protected function avatar(): Attribute
+    public function avatarUrl(): string
     {
-        return Attribute::make(
-            get: fn(?string $value)=>$value ?? "/avatars/default.jpg"
-        );
+        return asset($this->avatar ?? '/avatars/default.jpg');
     }
 }
