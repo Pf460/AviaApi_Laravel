@@ -2,23 +2,23 @@
 
 namespace App\Repositories;
 
-use App\Models\Ticket;
+use App\Models\Product;
 use App\Repositories\Interfaces\AdminTicketRepositoryInterface;
 
 class AdminTicketRepository implements AdminTicketRepositoryInterface
 {
-    public function createTicket(array $data): Ticket
+    public function createTicket(array $data): Product
     {
-        return Ticket::query()->create($data);
+        return Product::query()->create($data);
     }
 
-    public function updateTicket(Ticket $ticket, array $data): Ticket
+    public function updateTicket(Product $ticket, array $data): Product
     {
         $ticket->update($data);
         return $ticket->refresh();
     }
 
-    public function deleteTicket(Ticket $ticket): void
+    public function deleteTicket(Product $ticket): void
     {
         $ticket->delete();
     }

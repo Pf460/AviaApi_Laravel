@@ -22,12 +22,6 @@ class AuthController extends Controller
 
         ['token' => $token] = $this->authService->login($data['email'], $data['password']);
 
-        if (!$token) {
-            return response()->json([
-                'message' => 'error' //заглушка
-            ]);
-        }
-
         return response()->json([
             'user_token' => $token
         ]);
@@ -44,12 +38,6 @@ class AuthController extends Controller
         }
 
         ['token' => $token] = $this->authService->signUp($data);
-
-        if (!$token) {
-            return response()->json([
-                'message' => 'error' //заглушка
-            ]);
-        }
 
         return response()->json([
             'user_token' => $token

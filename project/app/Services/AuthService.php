@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\InvalidPasswordException;
 use App\Models\User;
 use App\Enums\UserRole;
 use App\Repositories\Interfaces\AuthRepositoryInterface;
@@ -18,7 +19,7 @@ class AuthService implements AuthServiceInterface
         $user = $this->authRepo->findByEmail($email);
 
         if(!$user || !Hash::check($password, $user->password)) {
-            return ['success' => false]; //заглушка
+            throw new InvalidPasswordException();
         }
 
         $token = $user->createToken('token')->plainTextToken;

@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,18 +15,9 @@ class UserRoleMiddleware
     {
         $user = $request->user();
 
-        if (!$user)
-        {
-            return response()->json([
-                'message' => 'Login failed'
-            ], 404);
-        }
-
         if ($user->role->value !== $role)
         {
-            return response()->json([
-                'message' => 'Forbidden for you'
-            ], 403);
+            throw new AuthorizationException();
         }
 
         return $next($request);

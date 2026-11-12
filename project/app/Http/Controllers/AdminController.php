@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\StoreTicketRequest;
 use App\Http\Requests\Admin\UpdateTicketRequest;
-use App\Http\Resources\Ticket\TicketResource;
-use App\Models\Ticket;
+use App\Http\Resources\Product\ProductResource;
+use App\Models\Product;
 use App\Services\Interfaces\AdminTicketServiceInterface;
 use Illuminate\Http\JsonResponse;
 
@@ -18,13 +18,13 @@ class AdminController extends Controller
     public function index(): JsonResponse
     {
         return response()->json(
-            TicketResource::collection(Ticket::all())->resolve()
+            ProductResource::collection(Product::all())->resolve()
         );
     }
 
-    public function show(Ticket $ticket): TicketResource
+    public function show(Product $ticket): ProductResource
     {
-        return new TicketResource($ticket);
+        return new ProductResource($ticket);
     }
 
     public function store(StoreTicketRequest $request): JsonResponse
@@ -39,15 +39,15 @@ class AdminController extends Controller
         ]);
     }
 
-    public function edit(UpdateTicketRequest $request, Ticket $ticket): TicketResource | JsonResponse
+    public function edit(UpdateTicketRequest $request, Product $ticket): ProductResource | JsonResponse
     {
         $data = $request->validated();
         $edit = $this->adminService->editTicket($ticket, $data);
 
-        return new TicketResource($edit);
+        return new ProductResource($edit);
     }
 
-    public function destroy(Ticket $ticket): JsonResponse
+    public function destroy(Product $ticket): JsonResponse
     {
         $this->adminService->destroyTicket($ticket);
 

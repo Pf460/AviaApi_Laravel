@@ -1,0 +1,467 @@
+{
+  "info": {
+    "_collection_link": "https://go.postman.co/collection/58654995-8ae2c933-abd7-4506-9f9f-fa268795d412?source=collection_link",
+    "_exporter_id": "58654995",
+    "_postman_id": "8ae2c933-abd7-4506-9f9f-fa268795d412",
+    "name": "Api-Flight-Laravel",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "item": [
+        {
+          "name": "login",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n    \"email\": \"user@flight.ru\",\r\n    \"password\": \"password\"\r\n}"
+            },
+            "description": "Метод отправки POST\n\nBody содержит:\n\n{\n\nemail: \" \",\n\npassword: \" \"\n\n}",
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "login"
+              ],
+              "raw": "{{host}}/login"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "signup",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n    \"fio\": \"Тестовый пользователь\",\r\n    \"email\": \"test@flight.ru\",\r\n    \"password\": \"test123\"\r\n}"
+            },
+            "description": "Метод отправки POST\n\nBody содержит:\n\n{\n\nfio: \" \",\n\nemail: \" \",\n\npassword: \" \"\n\n}",
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "signup"
+              ],
+              "raw": "{{host}}/signup"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "profile",
+          "request": {
+            "description": "Метод авторизации - это Bearer токен пользователя с ролью user\n\nМетод отправки GET",
+            "header": [],
+            "method": "GET",
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateProfile",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{auth_secret_0mf0}}"
+                }
+              ],
+              "type": "bearer"
+            },
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n    \"fio\": \"Обновлённый тестовый пользователь\"\r\n}"
+            },
+            "description": "Метод авторизации - это Bearer токен пользователя с ролью user\n\nМетод отправки PATCH\n\nBody содержит необязательные поля:\n\n{\n\nfio: \" \",\n\nemail: \" \",\n\npassword: \" \",\n\navatar: \" \"\n\n}",
+            "header": [],
+            "method": "PATCH",
+            "url": {
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "profile"
+              ],
+              "raw": "{{host}}/profile"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "logout",
+          "request": {
+            "description": "Метод авторизации - это Bearer токен пользователя с ролью user\n\nМетод отправки GET\n\nВыходит из аккаунта пользователя и удаляет токен",
+            "header": [],
+            "method": "GET",
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        }
+      ],
+      "name": "AuthModule"
+    },
+    {
+      "item": [
+        {
+          "name": "getAllProducts",
+          "request": {
+            "description": "Метод отправки GET\n\nАвторизация не требуется",
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "products"
+              ],
+              "raw": "{{host}}/products"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "showProducts",
+          "request": {
+            "description": "Метод отправки GET\n\nАвторизация не требуется\n\nURL - {{host}}/products/{product}. {product} - id продукта в БД",
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "products",
+                "1"
+              ],
+              "raw": "{{host}}/products/1"
+            }
+          },
+          "response": []
+        }
+      ],
+      "name": "TicketPublicModule"
+    },
+    {
+      "item": [
+        {
+          "name": "getAllProduct",
+          "request": {
+            "description": "Метод авторизации - это Bearer токен пользователя с ролью admin\n\nМетод отправки GET",
+            "header": [],
+            "method": "GET",
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "showProduct",
+          "request": {
+            "description": "Метод авторизации - это Bearer токен пользователя с ролью admin\n\nМетод отправки GET\n\nURL - {{host}}/products/{product}. {product} - id продукта в БД",
+            "header": [],
+            "method": "GET",
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "storeProduct",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{auth_secret_0ax4}}"
+                }
+              ],
+              "type": "bearer"
+            },
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n    \"name\": \"Тестовый рейс\",\r\n    \"description\": \"Рейс SU-100, Вылет 14:00, Бизнес класс\",\r\n    \"price\": \"14302\"\r\n}"
+            },
+            "description": "Метод авторизации - это Bearer токен пользователя с ролью admin\n\nМетод отправки POST\n\nBody содержит:\n\n{\n\nname: \" \",\n\ndescription: \" \",\n\nprice: \" \"\n\n}",
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "admin",
+                "products"
+              ],
+              "raw": "{{host}}/admin/products"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateProduct",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": ""
+                }
+              ],
+              "type": "bearer"
+            },
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n    \"name\": \"Обновление тестового рейса\"\r\n}"
+            },
+            "description": "Метод авторизации - это Bearer токен пользователя с ролью admin\n\nМетод отправки PATCH\n\nURL: {{host}}/admin/products/{product} - {product} - id продукта в БД\n\nBody содержит необязательные поля:\n\n{\n\nname: \" \",\n\ndescription: \" \",\n\nprice: \" \",\n\n}",
+            "header": [],
+            "method": "PATCH",
+            "url": {
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "admin",
+                "products",
+                "4"
+              ],
+              "raw": "{{host}}/admin/products/4"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "destroyProduct",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{auth_secret_0ax4}}"
+                }
+              ],
+              "type": "bearer"
+            },
+            "description": "Метод авторизации - это Bearer токен пользователя с ролью admin\n\nМетод отправки DELETE\n\nURL - {{host}}/admin/products/{product}. {product} - id продукта в БД",
+            "header": [],
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "admin",
+                "products",
+                "4"
+              ],
+              "raw": "{{host}}/admin/products/4"
+            }
+          },
+          "response": []
+        }
+      ],
+      "name": "TicketAdminModule"
+    },
+    {
+      "item": [
+        {
+          "name": "addToCart",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": ""
+                }
+              ],
+              "type": "bearer"
+            },
+            "description": "Метод авторизации - это Bearer токен пользователя с ролью user\n\nМетод отправки POST\n\nURL - {{host}}/cart/{product}. {product} - id продукта в БД",
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "cart",
+                "3"
+              ],
+              "raw": "{{host}}/cart/3"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getCart",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": ""
+                }
+              ],
+              "type": "bearer"
+            },
+            "description": "Метод авторизации - это Bearer токен пользователя с ролью user\n\nМетод отправки GET",
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "cart"
+              ],
+              "raw": "{{host}}/cart"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "destroyCartItem",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": ""
+                }
+              ],
+              "type": "bearer"
+            },
+            "description": "Метод авторизации - это Bearer токен пользователя с ролью user\n\nМетод отправки DELETE\n\nURL - {{host}}/cart/{cartItem}. {cartItem} - id продукта в корзине",
+            "header": [],
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "cart",
+                "3"
+              ],
+              "raw": "{{host}}/cart/3"
+            }
+          },
+          "response": []
+        }
+      ],
+      "name": "CartModule"
+    },
+    {
+      "item": [
+        {
+          "name": "storeOrder",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": ""
+                }
+              ],
+              "type": "bearer"
+            },
+            "description": "Метод авторизации - это Bearer токен пользователя с ролью user\n\nМетод отправки POST",
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "order"
+              ],
+              "raw": "{{host}}/order"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getOrder",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": ""
+                }
+              ],
+              "type": "bearer"
+            },
+            "description": "Метод авторизации - это Bearer токен пользователя с ролью user\n\nМетод отправки GET",
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "order"
+              ],
+              "raw": "{{host}}/order"
+            }
+          },
+          "response": []
+        }
+      ],
+      "name": "OrderModule"
+    }
+  ],
+  "variable": [
+    {
+      "key": "host",
+      "value": ""
+    }
+  ]
+}

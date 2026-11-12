@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Ticket;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Ticket>
+ * @extends Factory<Product>
  */
-class TicketFactory extends Factory
+class ProductFactory extends Factory
 {
     public function definition(): array
     {

@@ -2,13 +2,13 @@
 
 namespace App\Services\Interfaces;
 
-use App\Models\Ticket;
+use App\Models\Product;
 
 interface AdminTicketServiceInterface
 {
-    public function storeTicket(array $data): Ticket;
+    public function storeTicket(array $data): Product;
 
-    public function editTicket(Ticket $ticket ,array $data): Ticket;
+    public function editTicket(Product $ticket , array $data): Product;
 
-    public function destroyTicket(Ticket $ticket): void;
+    public function destroyTicket(Product $ticket): void;
 }
