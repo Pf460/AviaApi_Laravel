@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Auth\LoginAction;
+use App\Actions\Auth\LogoutAction;
+use App\Actions\Auth\SignUpAction;
+use App\Actions\Auth\UpdateProfileAction;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\SignUpRequest;
 use App\Http\Requests\Auth\UpdateProfileRequest;
 use App\Http\Resources\Auth\UserResource;
 use App\Services\Interfaces\AuthServiceInterface;
@@ -12,36 +16,35 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function __construct(
-        private AuthServiceInterface $authService
-    ){}
-
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginRequest $request, LoginAction $action): JsonResponse
     {
         $data = $request->validated();
 
-        ['token' => $token] = $this->authService->login($data['email'], $data['password']);
+        $token = $action->execute($data['email'], $data['password']);
 
         return response()->json([
-            'user_token' => $token
-        ]);
+            'user_token' => $token,
+        ], 200);
     }
 
-    public function signUp(RegisterRequest $request): JsonResponse
+    public function signUp(SignUpRequest $request, SignUpAction $action): JsonResponse
     {
         $data = $request->validated();
 
-        if ($request->hasFile('avatar'))
+        if($request->hasFile('avatar'))
         {
-            $path = $request->file('avatar')->store('avatars', 'public');
-            $data['avatar'] = '/storage/' . $path;
+            $file = $request->file('avatar');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('avatars'), $fileName);
+
+            $data['avatar'] = 'avatars/' . $fileName;
         }
 
-        ['token' => $token] = $this->authService->signUp($data);
+        $token = $action->execute($data);
 
         return response()->json([
-            'user_token' => $token
-        ]);
+            'user_token' => $token,
+        ], 201);
     }
 
     public function profile(Request $request): UserResource | JsonResponse
@@ -50,32 +53,35 @@ class AuthController extends Controller
 
         return response()->json([
             'user' => new UserResource($user)
-        ]);
+        ], 200);
     }
 
-    public function updateProfile(UpdateProfileRequest $request): UserResource | JsonResponse
+    public function updateProfile(UpdateProfileRequest $request, UpdateProfileAction $action): UserResource | JsonResponse
     {
         $data = $request->validated();
 
         if ($request->hasFile('avatar'))
         {
-            $path = $request->file('avatar')->store('avatars', 'public');
-            $data['avatar'] = '/storage/' . $path;
+            $file = $request->file('avatar');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('avatars'), $fileName);
+
+            $data['avatar'] = 'avatars/' . $fileName;
         }
 
-        $this->authService->updateProfile($request->user(), $data);
+        $action->execute($request->user() ,$data);
 
         return response()->json([
-            'message' => 'data update success'
+            'message' => 'data update successfully'
         ], 200);
     }
 
-    public function logout(Request $request): JsonResponse
+    public function logout(Request $request, LogoutAction $action): JsonResponse
     {
-        $this->authService->logout($request->user());
+        $action->execute($request->user());
 
         return response()->json([
-            'message' => 'Logout success'
+            'message' => 'logout'
         ], 200);
     }
 }

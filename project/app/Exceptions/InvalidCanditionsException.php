@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class InvalidPasswordException extends Exception
+class InvalidCanditionsException extends Exception
 {
 
 }

@@ -40,6 +40,6 @@ class User extends Authenticatable
 
     public function avatarUrl(): string
     {
-        return asset($this->avatar ?? '/avatars/default.jpg');
+        return asset($this->avatar);
     }
 }
