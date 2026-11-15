@@ -23,6 +23,7 @@ git clone https://github.com/Pf460/AviaApi_Laravel.git
 ````bash
 cd project
 cp .env.example .env
+php artisan key:generate
 
 cd ..
 cd deploy/dev
