@@ -2,7 +2,7 @@
 
 use App\Exceptions\CartEmptyException;
 use App\Exceptions\ForbiddenException;
-use App\Exceptions\InvalidPasswordException;
+use App\Exceptions\InvalidCanditionsException;
 use App\Http\Middleware\UserRoleMiddleware;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
@@ -43,7 +43,7 @@ return Application::configure(basePath: dirname(__DIR__))
             }
         });
 
-        $exceptions->render(function (InvalidPasswordException $e, Request $request) {
+        $exceptions->render(function (InvalidCanditionsException $e, Request $request) {
             if ($request->is('api-flight/*')) {
                 return response()->json([
                     'password' => "Login failed"
@@ -69,12 +69,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->render(function (ValidationException $e, Request $request) {
             if ($request->is('api-flight/*')) {
-                $message = 'Validation error';
-
-                foreach ($e->errors() as $field => $errors) {
-                    $message[$field] = $errors[0];
-                }
-                return response()->json($message, 422);
+                return response()->json([
+                    'message' => 'Validation error',
+                    'fields' => $e->errors()
+                ], 422);
             }
         });
 
@@ -82,7 +80,7 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->is('api-flight/*')) {
                 return response()->json([
                     'error' => [
-                        'message' => 'Cart is empty',
+                        'message' => 'Carts is empty',
                     ]
                 ], 422);
             }

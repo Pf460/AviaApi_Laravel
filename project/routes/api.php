@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 //Общие роуты
 Route::get('products', [ProductController::class, 'index']);
-Route::get('products/{ticket}', [ProductController::class, 'show']);
+Route::get('products/{product}', [ProductController::class, 'show']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('signup', [AuthController::class, 'signUp']);
 
@@ -25,10 +25,10 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('products', [AdminController::class, 'index']);
-        Route::get('products/{ticket}', [AdminController::class, 'show']);
+        Route::get('products/{product}', [AdminController::class, 'show']);
         Route::post('products', [AdminController::class, 'store']);
-        Route::patch('products/{ticket}', [AdminController::class, 'edit']);
-        Route::delete('products/{ticket}', [AdminController::class, 'destroy']);
+        Route::patch('products/{product}', [AdminController::class, 'update']);
+        Route::delete('products/{product}', [AdminController::class, 'destroy']);
     });
 });
 

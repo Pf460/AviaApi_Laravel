@@ -2,57 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Admin\StoreTicketRequest;
-use App\Http\Requests\Admin\UpdateTicketRequest;
-use App\Http\Resources\Product\ProductResource;
+use App\Actions\Admins\DestroyProductAction;
+use App\Actions\Admins\StoreProductAction;
+use App\Actions\Admins\UpdateProductAction;
+use App\Http\Requests\Admin\StoreProductRequest;
+use App\Http\Requests\Admin\UpdateProductRequest;
+use App\Http\Resources\Admin\AdminProductResource;
 use App\Models\Product;
-use App\Services\Interfaces\AdminTicketServiceInterface;
 use Illuminate\Http\JsonResponse;
 
 class AdminController extends Controller
 {
-    public function __construct(
-        private AdminTicketServiceInterface $adminService
-    ){}
 
     public function index(): JsonResponse
     {
         return response()->json(
-            ProductResource::collection(Product::all())->resolve()
+            AdminProductResource::collection(Product::all())->resolve()
         );
     }
 
-    public function show(Product $ticket): ProductResource
+    public function show(Product $product): AdminProductResource
     {
-        return new ProductResource($ticket);
+        return new AdminProductResource($product);
     }
 
-    public function store(StoreTicketRequest $request): JsonResponse
+    public function store(StoreProductRequest $request, StoreProductAction $action): JsonResponse
     {
         $data = $request->validated();
-        $ticket = $this->adminService->storeTicket($data);
-        $id = $ticket['id'];
+        $product = $action->execute($data);
 
         return response()->json([
-            'id' => $id,
+            'id' => $product['id'],
             'message' => 'Product added'
-        ]);
+        ], 201);
     }
 
-    public function edit(UpdateTicketRequest $request, Product $ticket): ProductResource | JsonResponse
+    public function update(UpdateProductRequest $request, Product $product, UpdateProductAction $action): AdminProductResource
     {
         $data = $request->validated();
-        $edit = $this->adminService->editTicket($ticket, $data);
+        $edit = $action->execute($product, $data);
 
-        return new ProductResource($edit);
+        return new AdminProductResource($edit);
     }
 
-    public function destroy(Product $ticket): JsonResponse
+    public function destroy(Product $product, DestroyProductAction $action): JsonResponse
     {
-        $this->adminService->destroyTicket($ticket);
+        $action->execute($product);
 
         return response()->json([
             'message' => 'Product removed',
-        ]);
+        ], 200);
     }
 }
