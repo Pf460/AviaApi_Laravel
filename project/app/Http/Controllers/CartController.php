@@ -2,41 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Carts\AddToCartAction;
+use App\Actions\Carts\DestroyFromCartAction;
+use App\Actions\Carts\GetCartAction;
 use App\Http\Resources\Cart\CartResource;
 use App\Models\CartItem;
 use App\Models\Product;
-use App\Models\User;
-use App\Services\Interfaces\CartServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function __construct(
-        private CartServiceInterface $cartService,
-    ){}
 
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, GetCartAction $action): JsonResponse
     {
         return response()->json(
-            CartResource::collection($this->cartService->getCartItems($request->user()))->resolve()
+            CartResource::collection($action->execute($request->user()))->resolve()
         );
     }
 
-    public function add(Request $request, Product $product): JsonResponse
+    public function add(Request $request, Product $product, AddToCartAction $action): JsonResponse
     {
-        $this->cartService->addToCart($product, $request->user());
+        $action->execute($request->user(), $product);
 
         return response()->json([
             'message' => 'Product add to cart',
         ], 201);
     }
 
-    public function destroy(Request $request, CartItem $cartItem): JsonResponse
+    public function destroy(Request $request, CartItem $cartItem, DestroyFromCartAction $action): JsonResponse
     {
-        $this->cartService->removeFromCart($cartItem, $request->user());
+        $action->execute($cartItem, $request->user());
         return response()->json([
             'message' => 'Item removed from cart'
-        ]);
+        ], 200);
     }
 }

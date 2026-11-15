@@ -24,20 +24,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //Сервисы и репозитории аутентификации
-
-
-        //Сервисы и репозитории админки
-        $this->app->bind(AdminproductRepositoryInterface::class, AdminproductRepository::class);
-        $this->app->bind(AdminproductServiceInterface::class, AdminproductService::class);
-
-        //Ceрвисы и репозитории для корзины
-        $this->app->bind(CartRepositoryInterface::class, CartRepository::class);
-        $this->app->bind(CartServiceInterface::class, CartService::class);
-
-        //Сервисы и репозитории для заказов
-        $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
-        $this->app->bind(OrderServiceInterface::class, OrderService::class);
+        //
     }
 
     public function boot(): void
