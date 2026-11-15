@@ -20,7 +20,7 @@ class OrderController extends Controller
 
     public function store(Request $request, StoreOrderAction $action): JsonResponse
     {
-        $action->execute($request->user());
+        $order = $action->execute($request->user());
 
         return response()->json([
             'order' => $order->id,
