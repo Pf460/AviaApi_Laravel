@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+#[Fillable(['id', 'order_id', 'product_id', 'price'])]
 class OrderItem extends Model
 {
-    protected $fillable = ['id', 'order_id', 'product_id', 'price'];
-
     protected $casts = [
         'price' => 'float'
     ];
